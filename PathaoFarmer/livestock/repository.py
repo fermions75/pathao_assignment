@@ -3,6 +3,7 @@ from farms.models import Farm
 from livestock.models import Livestock
 from livestock.Irepository import ILivestockRepository
 from livestock.enums import LivestockType
+from PathaoFarmer.exceptions import LivestockNotFoundException, CustomAPIException
 
 class LivestockRepository(ILivestockRepository):
 
@@ -18,7 +19,21 @@ class LivestockRepository(ILivestockRepository):
                 Livestock(farm=farm, type=LivestockType.SHEEP.value, price=5000.00) for _ in range(3)
             ]
         )
-        
+
 
     def get_all_livestock(self, farm: Farm):
         return farm.livestock.all()
+    
+    def list_livestock_in_marketplace(self, livestock_id: int, market_price: float, user: User):
+        try:
+            livestock = Livestock.objects.get(id=livestock_id, farm__owner=user)
+            if livestock.is_listed:
+                raise CustomAPIException(detail="Livestock is already listed in the marketplace")
+            livestock.is_listed = True
+            livestock.market_price = market_price
+            livestock.save()
+            return livestock
+        except Livestock.DoesNotExist:
+            raise LivestockNotFoundException()
+        except Exception as e:
+            raise CustomAPIException(detail=f"An error occurred: {str(e)}")

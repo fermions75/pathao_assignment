@@ -11,3 +11,7 @@ class ILivestockRepository(ABC):
     @abstractmethod
     def get_all_livestock(self, farm: Farm):
         pass
+
+    @abstractmethod
+    def list_livestock_in_marketplace(self):
+        pass
