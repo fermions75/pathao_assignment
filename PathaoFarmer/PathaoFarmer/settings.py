@@ -42,6 +42,9 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
     'auth_app',
+    'farms',
+    'livestock',
+    'transactions',
 ]
 
 MIDDLEWARE = [
@@ -113,6 +116,7 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
+    'EXCEPTION_HANDLER': 'PathaoFarmer.exceptions.custom_exception_handler',
 }
 
 
