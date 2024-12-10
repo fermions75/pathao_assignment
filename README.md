@@ -22,3 +22,8 @@ docker-compose exec web python manage.py test
 # Create Superuser
 
 docker-compose exec web python manage.py createsuperuser
+
+
+# Test using Postman
+
+Import the postman schema to test the api endpoints using postman
