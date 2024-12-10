@@ -1,0 +1,335 @@
+{
+	"info": {
+		"_postman_id": "d17148be-9515-489d-b73d-54eca348569d",
+		"name": "Pathao Assignment",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18588306",
+		"_collection_link": "https://lunar-eclipse-393594.postman.co/workspace/Pathao~20b34163-3f25-4557-b5ad-5612c321ef91/collection/18588306-d17148be-9515-489d-b73d-54eca348569d?action=share&source=collection_link&creator=18588306"
+	},
+	"item": [
+		{
+			"name": "Register",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"nayer\",\r\n  \"password\": \"1234\",\r\n  \"password2\": \"1234\",\r\n  \"email\": \"nayer@gmail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/auth/register/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"auth",
+						"register",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"mohema\",\r\n  \"password\": \"1234\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/auth/login/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"auth",
+						"login",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMzNjg5MjU5LCJpYXQiOjE3MzM2Nzg0NTksImp0aSI6IjgwZTkxOTM2NGQ2MDQ4OTNhZTlkZGExOTVmODIxZTk4IiwidXNlcl9pZCI6Mn0.XkFFZmde-Sbfro66aC1msIJyXWLML54Ed2pLkyweqII",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"refresh\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczMzc2NDg1OSwiaWF0IjoxNzMzNjc4NDU5LCJqdGkiOiI0ODk0MTI0OWY1MTE0YjMxODRjZDQyNmE3NTc3Y2U5ZCIsInVzZXJfaWQiOjJ9._SQSYPI2RpCboa5cLsOyNJd0mb6UH5MKos_fx6ls9mM\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/auth/logout/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"auth",
+						"logout",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List marketplace",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMzODI5NTU0LCJpYXQiOjE3MzM4MTg3NTQsImp0aSI6ImE1NTM4Nzk5ZTkwZTRlMDZhMWVmMzU4MmM3MGE4NDc1IiwidXNlcl9pZCI6Nn0.pBtEtl9MAPKpSInB5nRKKEnoBb3rISNIgOI36W10jcM",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"livestock_id\": 5,\r\n    \"market_price\": 200000\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/livestock/marketplace/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"livestock",
+						"marketplace",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List marketplace",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMzODI5NTg1LCJpYXQiOjE3MzM4MTg3ODUsImp0aSI6IjJhNzE0MjRmNTI1MTQ3MWViZDg0ODJkMTA5OTg0NDFlIiwidXNlcl9pZCI6OH0.QRV7uZ4HR017kbDIqcRs7VNo4FmXuqrJIg6LTDL_Fkg",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/livestock/marketplace/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"livestock",
+						"marketplace",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "farmers",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMzODI5NTg1LCJpYXQiOjE3MzM4MTg3ODUsImp0aSI6IjJhNzE0MjRmNTI1MTQ3MWViZDg0ODJkMTA5OTg0NDFlIiwidXNlcl9pZCI6OH0.QRV7uZ4HR017kbDIqcRs7VNo4FmXuqrJIg6LTDL_Fkg",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/farmers/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"farmers",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "transaction/purchase",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMzODI5NTg1LCJpYXQiOjE3MzM4MTg3ODUsImp0aSI6IjJhNzE0MjRmNTI1MTQ3MWViZDg0ODJkMTA5OTg0NDFlIiwidXNlcl9pZCI6OH0.QRV7uZ4HR017kbDIqcRs7VNo4FmXuqrJIg6LTDL_Fkg",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"livestock_id\": 5\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/transactions/purchase/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"transactions",
+						"purchase",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "transaction/all",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMzODU3MTgzLCJpYXQiOjE3MzM4NDYzODMsImp0aSI6IjMxZDk3ODFkNTY5NDRlZDE5NzNhMzc2MjkyNjAwYmQ1IiwidXNlcl9pZCI6N30.dOBUWw6f6jt8lWpY0x5_x7y6MeuD9h8uuHaLYmh4oSM",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8000/api/transactions/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"transactions",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
