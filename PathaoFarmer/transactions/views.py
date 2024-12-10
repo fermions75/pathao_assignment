@@ -17,6 +17,9 @@ from decimal import Decimal
 
 
 class PurchaseLivestock(APIView):
+    """
+    This endpoint will allow the authenticated user to purchase livestock from the marketplace
+    """
     permission_classes = (IsAuthenticated,)
     livestock_repository = LivestockRepository()
     transaction_repository = TransactionsRepository()
@@ -62,6 +65,9 @@ class PurchaseLivestock(APIView):
     
 
 class TransactionHistory(APIView):
+    """
+    This endpoint will return the transaction history of the authenticated user
+    """
     permission_classes = (IsAuthenticated,)
     transaction_repository = TransactionsRepository()
 

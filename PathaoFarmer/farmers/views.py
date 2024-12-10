@@ -9,6 +9,9 @@ from PathaoFarmer.exceptions import CustomAPIException
 
 
 class FarmerDetails(APIView):
+    """
+    This endpoint will allow the authenticated user (farmer) to view their and their farm details
+    """
     permission_classes = (IsAuthenticated,)
     farms_repository = FarmerRepository()
 

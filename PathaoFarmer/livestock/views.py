@@ -9,6 +9,9 @@ from PathaoFarmer.exceptions import CustomAPIException
 
 
 class ListLivestockOnMarketplace(APIView):
+    """
+    This endpoint will allow the authenticated user to list their livestock in the marketplace
+    """
     permission_classes = (IsAuthenticated,)
     livestock_repository = LivestockRepository()
 
