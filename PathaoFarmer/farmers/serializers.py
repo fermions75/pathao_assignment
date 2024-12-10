@@ -7,7 +7,7 @@ class LivestockSerializer(serializers.ModelSerializer):
     type = serializers.CharField(source='get_type_display')
     class Meta:
         model = Livestock
-        fields = ['type', 'price', 'market_price', 'is_listed']
+        fields = ['id', 'type', 'price', 'market_price', 'is_listed']
 
 class FarmSerializer(serializers.ModelSerializer):
     livestock = LivestockSerializer(many=True, read_only=True)

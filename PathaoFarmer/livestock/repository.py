@@ -46,3 +46,15 @@ class LivestockRepository(ILivestockRepository):
     
     def get_livestock(self, farm: Farm):
         return farm.livestock.all()
+    
+    def get_livestock_by_id(self, livestock_id: int):
+        value = Livestock.objects.filter(id=livestock_id)
+        if not value.exists():
+            raise LivestockNotFoundException()
+        return value[0]
+    
+    def get_livestock_owner(self, livestock_id: int):
+        value = Livestock.objects.filter(id=livestock_id)
+        if not value.exists():
+            raise LivestockNotFoundException()
+        return value[0].farm.owner

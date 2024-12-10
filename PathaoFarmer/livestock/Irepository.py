@@ -28,3 +28,11 @@ class ILivestockRepository(ABC):
     @abstractmethod
     def get_marketplace_livestock_by_user(self, user: User):
         pass
+
+    @abstractmethod
+    def get_livestock_owner(self, livestock_id: int):
+        pass
+
+    @abstractmethod
+    def get_livestock_by_id(self, livestock_id: int):
+        pass
