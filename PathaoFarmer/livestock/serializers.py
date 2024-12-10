@@ -31,6 +31,6 @@ class ListLivestockOnMarketplaceSerializer(serializers.Serializer):
     def validate_market_price(self, value):
         if value <= 0:
             raise serializers.ValidationError("Market price must be greater than 0.")
-        if value >= 1000000:
+        if value >= 10000000:
             raise serializers.ValidationError("Market price must be less than 1000000.")
         return value
