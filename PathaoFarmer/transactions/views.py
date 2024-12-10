@@ -12,6 +12,7 @@ from .serializers import PurchaseLivestockSerializer, TransactionSerializer
 from PathaoFarmer.exceptions import CustomAPIException
 from livestock.repository import LivestockRepository
 from transactions.repository import TransactionsRepository
+from farms.repository import FarmsRepository
 from decimal import Decimal
 
 
@@ -19,6 +20,7 @@ class PurchaseLivestock(APIView):
     permission_classes = (IsAuthenticated,)
     livestock_repository = LivestockRepository()
     transaction_repository = TransactionsRepository()
+    farm_repository = FarmsRepository()
 
     def validate_purchase(self, buyer:User, seller:User, livestock:Livestock):
         if livestock.is_listed == False:
@@ -29,12 +31,6 @@ class PurchaseLivestock(APIView):
 
         if buyer.farm.balance < livestock.market_price:
             raise CustomAPIException(detail="Insufficient balance to purchase livestock")
-
-
-    def increase_price(self, price: Decimal) -> Decimal:
-        increase_percentage = Decimal(random.uniform(0.1, 0.5))  # Random percentage between 10% and 50%
-        return price * (1 + increase_percentage)
-
 
     @transaction.atomic
     def post(self, request):
@@ -49,22 +45,17 @@ class PurchaseLivestock(APIView):
             self.validate_purchase(buyer, seller, livestock)
 
             #update buyer balance
-            buyer.farm.balance -= livestock.market_price
-            buyer.farm.save()
+            self.farm_repository.update_farm_balance(buyer, buyer.farm.balance - livestock.market_price)
 
             #update seller balance
-            seller.farm.balance += livestock.market_price
-            seller.farm.save()
+            self.farm_repository.update_farm_balance(seller, seller.farm.balance + livestock.market_price)
 
             # Create transaction
             self.transaction_repository.create_transaction(buyer, seller, livestock)
 
             # Mark livestock as sold
-            livestock.is_listed = False
-            livestock.farm = buyer.farm
-            livestock.market_price = None
-            livestock.price = self.increase_price(livestock.price)
-            livestock.save()
+            self.livestock_repository.mark_livestock_as_sold(livestock, buyer)
+
             return Response({"message": "Livestock purchased successfully"}, status=status.HTTP_200_OK)
 
         raise CustomAPIException(detail=serializer.errors, code=status.HTTP_400_BAD_REQUEST)
