@@ -28,6 +28,7 @@ class RegisterView(APIView):
                 farm = self.farm_repository.create_farm(user)
                 self.livestock_repository.create_livestock_after_reg(farm)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+        print("serializer.errors: ", serializer.errors)
         raise CustomAPIException(detail=serializer.errors, code=status.HTTP_400_BAD_REQUEST)
 
 
