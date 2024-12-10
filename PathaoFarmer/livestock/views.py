@@ -5,6 +5,7 @@ from rest_framework.permissions import IsAuthenticated
 from livestock.repository import LivestockRepository
 from django.contrib.auth.models import User
 from .serializers import LivestockSerializer, ListLivestockOnMarketplaceSerializer
+from PathaoFarmer.exceptions import CustomAPIException
 
 
 class ListLivestockOnMarketplace(APIView):
@@ -21,7 +22,7 @@ class ListLivestockOnMarketplace(APIView):
             livestock = self.livestock_repository.list_livestock_in_marketplace(livestock_id, market_price, user)
             serializer = LivestockSerializer(livestock)
             return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        raise CustomAPIException(detail=serializer.errors, code=status.HTTP_400_BAD_REQUEST)
     
 
     def get(self, request):

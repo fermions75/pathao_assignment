@@ -28,7 +28,7 @@ class RegisterView(APIView):
                 farm = self.farm_repository.create_farm(user)
                 self.livestock_repository.create_livestock_after_reg(farm)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        raise CustomAPIException(detail=serializer.errors, code=status.HTTP_400_BAD_REQUEST)
 
 
 class LoginView(APIView):
@@ -49,7 +49,7 @@ class LoginView(APIView):
                 if not User.objects.filter(username=username).exists():
                     return Response({'detail': 'Invalid username'}, status=status.HTTP_400_BAD_REQUEST)
                 return Response({'detail': 'Invalid password'}, status=status.HTTP_400_BAD_REQUEST)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        raise CustomAPIException(detail=serializer.errors, code=status.HTTP_400_BAD_REQUEST)
 
 
 
@@ -62,4 +62,4 @@ class LogoutView(APIView):
             return Response(status=status.HTTP_205_RESET_CONTENT)
         except Exception as e:
             print(f"Exception: {e}")
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+            raise CustomAPIException(detail="Invalid token", code=status.HTTP_400_BAD_REQUEST)

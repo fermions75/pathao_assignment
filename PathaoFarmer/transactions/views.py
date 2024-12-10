@@ -8,15 +8,17 @@ from farms.models import Farm
 import random
 from livestock.models import Livestock
 from .models import Transaction
-from .serializers import PurchaseLivestockSerializer
+from .serializers import PurchaseLivestockSerializer, TransactionSerializer
 from PathaoFarmer.exceptions import CustomAPIException
 from livestock.repository import LivestockRepository
+from transactions.repository import TransactionsRepository
 from decimal import Decimal
 
 
 class PurchaseLivestock(APIView):
     permission_classes = (IsAuthenticated,)
     livestock_repository = LivestockRepository()
+    transaction_repository = TransactionsRepository()
 
     def validate_purchase(self, buyer:User, seller:User, livestock:Livestock):
         if livestock.is_listed == False:
@@ -36,7 +38,6 @@ class PurchaseLivestock(APIView):
 
     @transaction.atomic
     def post(self, request):
-
         serializer = PurchaseLivestockSerializer(data=request.data)
         if serializer.is_valid():
             livestock_id = serializer.validated_data['livestock_id']
@@ -46,38 +47,35 @@ class PurchaseLivestock(APIView):
             livestock = self.livestock_repository.get_livestock_by_id(livestock_id)
 
             self.validate_purchase(buyer, seller, livestock)
-            print("Validation done")
 
             #update buyer balance
             buyer.farm.balance -= livestock.market_price
             buyer.farm.save()
-            print("Buyer balance updated")
+
             #update seller balance
             seller.farm.balance += livestock.market_price
             seller.farm.save()
-            print("Seller balance updated")
-            # Create transaction
-            Transaction.objects.create(buyer=buyer, seller=seller, livestock=livestock, selling_price=livestock.market_price)
-            print("Transaction created")
 
-            print(buyer.farm.balance)
-            print(seller.farm.balance)
-            print(buyer.farm)
+            # Create transaction
+            self.transaction_repository.create_transaction(buyer, seller, livestock)
 
             # Mark livestock as sold
             livestock.is_listed = False
-            print("Livestock is listed false")
             livestock.farm = buyer.farm
-            print("Livestock farm updated")
             livestock.market_price = None
-            print("Livestock market price updated")
-            print(livestock.price)
-            print(self.increase_price(livestock.price))
             livestock.price = self.increase_price(livestock.price)
-            print("Livestock price updated -- ", livestock.price)
             livestock.save()
-            print("Livestock sold")
             return Response({"message": "Livestock purchased successfully"}, status=status.HTTP_200_OK)
 
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        raise CustomAPIException(detail=serializer.errors, code=status.HTTP_400_BAD_REQUEST)
+    
+
+class TransactionHistory(APIView):
+    permission_classes = (IsAuthenticated,)
+    transaction_repository = TransactionsRepository()
+
+    def get(self, request):
+        transactions = self.transaction_repository.get_all_transactions(request.user)
+        serializer = TransactionSerializer(transactions, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
             
