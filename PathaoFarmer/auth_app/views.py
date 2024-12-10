@@ -10,6 +10,8 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from .serializers import RegisterSerializer, LoginSerializer
 from farms.repository import FarmsRepository
 from livestock.repository import LivestockRepository
+from django.db import transaction
+from PathaoFarmer.exceptions import CustomAPIException
 
 
 class RegisterView(APIView):
@@ -20,10 +22,11 @@ class RegisterView(APIView):
     def post(self, request):
         serializer = RegisterSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
-            user = User.objects.get(username=serializer.validated_data['username'])
-            farm = self.farm_repository.create_farm(user)
-            self.livestock_repository.create_livestock_after_reg(farm)
+            with transaction.atomic():
+                serializer.save()
+                user = User.objects.get(username=serializer.validated_data['username'])
+                farm = self.farm_repository.create_farm(user)
+                self.livestock_repository.create_livestock_after_reg(farm)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
