@@ -6,9 +6,9 @@ class IFarmsRepository(ABC):
     def create_farm(self, user: User):
         pass
 
-    # @abstractmethod
-    # def get_farm(self, user: User):
-    #     pass
+    @abstractmethod
+    def get_farm(self, user: User):
+        pass
 
     # @abstractmethod
     # def get_farm_balance(self, user: User):

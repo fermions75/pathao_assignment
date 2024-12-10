@@ -7,6 +7,11 @@ class ILivestockRepository(ABC):
     @abstractmethod
     def create_livestock_after_reg(self, farm: Farm, animal_type: str, quantity: int):
         pass
+    
+    
+    @abstractmethod
+    def get_livestock(self, farm: Farm):
+        pass
 
     @abstractmethod
     def get_all_livestock(self, farm: Farm):
@@ -14,4 +19,12 @@ class ILivestockRepository(ABC):
 
     @abstractmethod
     def list_livestock_in_marketplace(self):
+        pass
+
+    @abstractmethod
+    def get_all_marketplace_livestock(self):
+        pass
+
+    @abstractmethod
+    def get_marketplace_livestock_by_user(self, user: User):
         pass

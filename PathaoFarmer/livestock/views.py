@@ -6,6 +6,7 @@ from livestock.repository import LivestockRepository
 from django.contrib.auth.models import User
 from .serializers import LivestockSerializer, ListLivestockOnMarketplaceSerializer
 
+
 class ListLivestockOnMarketplace(APIView):
     permission_classes = (IsAuthenticated,)
     livestock_repository = LivestockRepository()
@@ -21,4 +22,10 @@ class ListLivestockOnMarketplace(APIView):
             serializer = LivestockSerializer(livestock)
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+
+    def get(self, request):
+        livestock = self.livestock_repository.get_all_marketplace_livestock()
+        serializer = LivestockSerializer(livestock, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 

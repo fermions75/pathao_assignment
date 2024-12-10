@@ -12,8 +12,8 @@ class FarmsRepository(IFarmsRepository):
     # def get_all_farms(self):
     #     return Farm.objects.all()
 
-    # def get_farm(self, user: User):
-    #     return Farm.objects.get(owner=user)
+    def get_farm(self, user: User):
+        return Farm.objects.get(owner=user)
 
     # def get_farm_balance(self, user: User):
     #     farm = Farm.objects.get(owner=user)

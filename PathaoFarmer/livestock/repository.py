@@ -37,3 +37,12 @@ class LivestockRepository(ILivestockRepository):
             raise LivestockNotFoundException()
         except Exception as e:
             raise CustomAPIException(detail=f"An error occurred: {str(e)}")
+        
+    def get_all_marketplace_livestock(self):
+        return Livestock.objects.filter(is_listed=True)
+    
+    def get_marketplace_livestock_by_user(self, user: User):
+        return Livestock.objects.filter(is_listed=True, farm__owner=user)
+    
+    def get_livestock(self, farm: Farm):
+        return farm.livestock.all()
