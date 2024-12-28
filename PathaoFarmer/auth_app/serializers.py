@@ -36,3 +36,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField(required=True)
     password = serializers.CharField(required=True, write_only=True)
+
+
+class TokenRefreshSerializer(serializers.Serializer):
+    refresh = serializers.CharField()

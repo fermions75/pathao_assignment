@@ -7,7 +7,7 @@ from django.contrib.auth import authenticate
 from rest_framework.permissions import AllowAny
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-from .serializers import RegisterSerializer, LoginSerializer
+from .serializers import RegisterSerializer, LoginSerializer, TokenRefreshSerializer
 from farms.repository import FarmsRepository
 from livestock.repository import LivestockRepository
 from django.db import transaction
@@ -46,10 +46,11 @@ class LoginView(APIView):
                 token_serializer = TokenObtainPairSerializer(data=request.data)
                 if token_serializer.is_valid():
                     return Response(token_serializer.validated_data, status=status.HTTP_200_OK)
+                raise CustomAPIException(detail=token_serializer.errors, code=status.HTTP_400_BAD_REQUEST)
             else:
                 if not User.objects.filter(username=username).exists():
-                    return Response({'detail': 'Invalid username'}, status=status.HTTP_400_BAD_REQUEST)
-                return Response({'detail': 'Invalid password'}, status=status.HTTP_400_BAD_REQUEST)
+                    raise CustomAPIException(detail='User not found', code=status.HTTP_400_BAD_REQUEST)
+                raise CustomAPIException(detail='Invalid password', code=status.HTTP_400_BAD_REQUEST)
         raise CustomAPIException(detail=serializer.errors, code=status.HTTP_400_BAD_REQUEST)
 
 
@@ -64,3 +65,21 @@ class LogoutView(APIView):
         except Exception as e:
             print(f"Exception: {e}")
             raise CustomAPIException(detail="Invalid token", code=status.HTTP_400_BAD_REQUEST)
+        
+
+    
+class TokenRefreshView(APIView):
+    permission_classes = (AllowAny,)
+
+    def post(self, request):
+        serializer = TokenRefreshSerializer(data=request.data)
+        if serializer.is_valid():
+            refresh_token = serializer.validated_data['refresh']
+            try:
+                token = RefreshToken(refresh_token)
+                new_access_token = str(token.access_token)
+                return Response({'access': new_access_token}, status=status.HTTP_200_OK)
+            except Exception as e:
+                print(f"Exception: {e}")
+                raise CustomAPIException(detail="Invalid or expired refresh token", code=status.HTTP_400_BAD_REQUEST)
+        raise CustomAPIException(detail=serializer.errors, code=status.HTTP_400_BAD_REQUEST)
